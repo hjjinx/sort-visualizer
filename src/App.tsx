@@ -33,18 +33,19 @@ function App() {
     let numberOfSwaps = 0;
     setCurrent([0]);
 
-    const performBubbleSort = () => {
+    const performBubbleSort = async () => {
       if (i == initialArray.length - countOfIterations) {
         console.log({ numberOfSwaps });
         if (numberOfSwaps == 0) {
           setCurrent(null);
-          return;
+          await sleep();
         }
         numberOfSwaps = 0;
         countOfIterations++;
         i = 0;
         j = 1;
         setCurrent([0]);
+        await sleep();
       }
       if (initialArray[i] > initialArray[j]) {
         numberOfSwaps++;
@@ -52,9 +53,10 @@ function App() {
       }
       setInitialArray(initialArray);
       setCurrent((current) => [current![0]! + 1]);
+      await sleep();
       i++;
       j++;
-      setTimeout(performBubbleSort, 1);
+      performBubbleSort();
     };
 
     performBubbleSort();
