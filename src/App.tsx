@@ -2,31 +2,44 @@ import { useEffect, useState } from "react";
 import { LENGTH, MAX } from "./Constants";
 import "./App.css";
 import ArrayList from "./ArrayList";
+import {
+  Button,
+  InputLabel,
+  MenuItem,
+  Select,
+  Tab,
+  Tabs,
+  FormControl,
+  Slider,
+  Typography,
+} from "@mui/material";
 
 function App() {
-  const [initialArray, setInitialArray] = useState<number[]>([]);
+  const [array, setArray] = useState<number[]>([]);
+  const [algorithmSelected, setAlgorithmSelected] = useState("Bubble");
   const [hslStart, setHslStart] = useState<number>(
     Math.floor(Math.random() * 360)
   );
   const [current, setCurrent] = useState<number[] | null>(null);
-  const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(10);
+  const [lengthOfArr, setLengthOfArr] = useState(LENGTH);
   const genUnsortedArray = () => {
-    setInitialArray(
+    setArray(
       Array.from(
         {
-          length: LENGTH,
+          length: lengthOfArr,
         },
         () => Math.floor(Math.random() * MAX)
       )
     );
   };
 
-  const sleep = () => new Promise((resolve) => setTimeout(resolve, speed));
-
+  useEffect(genUnsortedArray, [lengthOfArr]);
   useEffect(genUnsortedArray, []);
 
+  const sleep = () => new Promise((resolve) => setTimeout(resolve, speed));
+
   const bubbleSort = () => {
-    if (current) return;
     let i = 0;
     let j = 1;
     let countOfIterations = 0;
@@ -34,11 +47,11 @@ function App() {
     setCurrent([0]);
 
     const performBubbleSort = async () => {
-      if (i == initialArray.length - countOfIterations) {
+      if (i == array.length - countOfIterations) {
         console.log({ numberOfSwaps });
         if (numberOfSwaps == 0) {
           setCurrent(null);
-          await sleep();
+          return;
         }
         numberOfSwaps = 0;
         countOfIterations++;
@@ -47,11 +60,11 @@ function App() {
         setCurrent([0]);
         await sleep();
       }
-      if (initialArray[i] > initialArray[j]) {
+      if (array[i] > array[j]) {
         numberOfSwaps++;
-        [initialArray[i], initialArray[j]] = [initialArray[j], initialArray[i]];
+        [array[i], array[j]] = [array[j], array[i]];
       }
-      setInitialArray(initialArray);
+      setArray(array);
       setCurrent((current) => [current![0]! + 1]);
       await sleep();
       i++;
@@ -63,13 +76,12 @@ function App() {
   };
 
   const mergeSort = async () => {
-    if (current) return;
     const merge = async (l: number, m: number, r: number) => {
       let n1 = m - l + 1;
       let n2 = r - m;
       // Create temp arrays
-      let L = initialArray.slice(l, l + n1);
-      let R = initialArray.slice(m + 1, m + 1 + n2);
+      let L = array.slice(l, l + n1);
+      let R = array.slice(m + 1, m + 1 + n2);
 
       let i = 0;
       let j = 0;
@@ -77,16 +89,14 @@ function App() {
 
       while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
-          console.log({ i, j, k });
-          initialArray[k] = L[i];
+          array[k] = L[i];
           if (k !== i + l) {
             setCurrent([k, m + 1 + j]);
             await sleep();
           }
           i++;
         } else {
-          console.log({ i, j, k });
-          initialArray[k] = R[j];
+          array[k] = R[j];
           if (k !== m + 1 + j) {
             setCurrent([k, m + 1 + j]);
             await sleep();
@@ -97,13 +107,13 @@ function App() {
       }
 
       while (i < n1) {
-        initialArray[k] = L[i];
+        array[k] = L[i];
         i++;
         k++;
       }
 
       while (j < n2) {
-        initialArray[k] = R[j];
+        array[k] = R[j];
         j++;
         k++;
       }
@@ -114,18 +124,108 @@ function App() {
       await performMergeSort(l, m);
       await performMergeSort(m + 1, r);
       await merge(l, m, r);
-      console.log({ initialArray });
     };
-    await performMergeSort(0, initialArray.length - 1);
+    setCurrent([0]);
+    await performMergeSort(0, array.length - 1);
     setCurrent(null);
+  };
+  const sort = () => {
+    switch (algorithmSelected) {
+      case "Bubble":
+        bubbleSort();
+        break;
+      case "Merge":
+        mergeSort();
+        break;
+    }
+  };
+
+  const reset = () => {
+    genUnsortedArray();
+    setCurrent(null);
+    setHslStart(Math.floor(Math.random() * 360));
   };
 
   return (
     <div className="App">
-      <button onClick={bubbleSort}>Bubble Sort</button>
-      <button onClick={mergeSort}>Merge Sort</button>
+      <div className="header">
+        <div style={{ flex: 1 }}>
+          <Tabs
+            value={algorithmSelected}
+            onChange={(e, newValue) => setAlgorithmSelected(newValue)}
+            aria-label="basic tabs example"
+            style={{ marginTop: 10 }}
+          >
+            <Tab label="Bubble Sort" value="Bubble" disabled={!!current} />
+            <Tab label="Merge Sort" value="Merge" disabled={!!current} />
+            {/* <Tab
+              label="Selection Sort"
+              value="Selection"
+              disabled={!!current}
+            /> */}
+          </Tabs>
+        </div>
+        <div style={{ flex: 1 }}>
+          <Button
+            variant="contained"
+            onClick={sort}
+            color="success"
+            disabled={!!current}
+          >
+            Sort
+          </Button>
+          <Button
+            variant="contained"
+            onClick={reset}
+            color="error"
+            disabled={!!current}
+          >
+            Restart
+          </Button>
+        </div>
+      </div>
       <main className="main">
-        <ArrayList hslStart={hslStart} arr={initialArray} current={current!} />
+        <div className="controls">
+          <FormControl>
+            <InputLabel id="demo-simple-select-label" style={{ color: "#aaa" }}>
+              Speed
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={speed}
+              label="Speed"
+              onChange={(event) => setSpeed(Number(event.target.value))}
+              style={{ width: "10vw", color: "white" }}
+              disabled={!!current}
+            >
+              <MenuItem value={100}>Slow</MenuItem>
+              <MenuItem value={10}>Medium</MenuItem>
+              <MenuItem value={1}>Fast</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <Typography
+              id="input-slider"
+              gutterBottom
+              style={{ marginBottom: 40 }}
+            >
+              Size of Array
+            </Typography>
+            <Slider
+              defaultValue={1000}
+              step={100}
+              min={10}
+              max={1000}
+              valueLabelDisplay="on"
+              onChange={(e, newValue) => setLengthOfArr(Number(newValue))}
+              disabled={!!current}
+            />
+          </FormControl>
+        </div>
+        <div>
+          <ArrayList hslStart={hslStart} arr={array} current={current!} />
+        </div>
       </main>
     </div>
   );
