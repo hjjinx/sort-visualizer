@@ -16,7 +16,7 @@ import {
 
 function App() {
   const [array, setArray] = useState<number[]>([]);
-  const [algorithmSelected, setAlgorithmSelected] = useState("Bubble");
+  const [algorithmSelected, setAlgorithmSelected] = useState("Merge");
   const [hslStart, setHslStart] = useState<number>(
     Math.floor(Math.random() * 360)
   );
@@ -156,8 +156,8 @@ function App() {
             aria-label="basic tabs example"
             style={{ marginTop: 10 }}
           >
-            <Tab label="Bubble Sort" value="Bubble" disabled={!!current} />
             <Tab label="Merge Sort" value="Merge" disabled={!!current} />
+            <Tab label="Bubble Sort" value="Bubble" disabled={!!current} />
             {/* <Tab
               label="Selection Sort"
               value="Selection"
