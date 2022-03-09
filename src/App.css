@@ -19,7 +19,5 @@
   display: flex;
 }
 .item {
-  border-width: 1px;
-  border-color: aliceblue;
-  box-sizing: border-box;
+  width: 10%;
 }

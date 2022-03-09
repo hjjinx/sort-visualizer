@@ -1,6 +1,7 @@
 :root {
   --primary: #282c34;
   --hyperlink: #61dafb;
+  --selected-item: #fff;
 }
 
 body {
