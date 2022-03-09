@@ -2,8 +2,8 @@
   "name": "sort-visualiser",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://hjjinx.github.io/sort-visualizer",
   "dependencies": {
-    "homepage": "https://hjjinx.github.io/sort-visualizer",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.5.0",
