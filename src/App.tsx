@@ -1,25 +1,29 @@
 import { useEffect, useState } from "react";
+import { LENGTH, MAX } from "./Constants";
 import "./App.css";
-
-const LENGTH = 100;
+import ArrayList from "./ArrayList";
 
 function App() {
-  const [arr, setArr] = useState<number[]>();
+  const [arr, setArr] = useState<number[]>([]);
+  const [hslStart, setHslStart] = useState<number>(
+    Math.floor(Math.random() * 360)
+  );
   const genUnsortedArray = () => {
     setArr(
       Array.from(
         {
           length: LENGTH,
         },
-        () => Math.floor(Math.random() * 1000)
+        () => Math.floor(Math.random() * MAX)
       )
     );
   };
-  console.log({ arr });
   useEffect(genUnsortedArray, []);
   return (
     <div className="App">
-      <main className="main"></main>
+      <main className="main">
+        <ArrayList hslStart={hslStart} arr={arr} />
+      </main>
     </div>
   );
 }

@@ -12,3 +12,14 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.array-container {
+  width: 80vw;
+  height: 75vh;
+  flex-direction: row;
+  display: flex;
+}
+.item {
+  border-width: 1px;
+  border-color: aliceblue;
+  box-sizing: border-box;
+}
