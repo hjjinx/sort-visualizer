@@ -63,6 +63,7 @@ function App() {
   };
 
   const mergeSort = async () => {
+    if (current) return;
     const merge = async (l: number, m: number, r: number) => {
       let n1 = m - l + 1;
       let n2 = r - m;
