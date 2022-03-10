@@ -2,17 +2,8 @@ import { useEffect, useState } from "react";
 import { LENGTH, MAX } from "./Constants";
 import "./App.css";
 import ArrayList from "./ArrayList";
-import {
-  Button,
-  InputLabel,
-  MenuItem,
-  Select,
-  Tab,
-  Tabs,
-  FormControl,
-  Slider,
-  Typography,
-} from "@mui/material";
+import Header from "./Header";
+import Controls from "./Controls";
 
 function App() {
   const [array, setArray] = useState<number[]>([]);
@@ -129,6 +120,7 @@ function App() {
     await performMergeSort(0, array.length - 1);
     setCurrent(null);
   };
+
   const sort = () => {
     switch (algorithmSelected) {
       case "Bubble":
@@ -148,81 +140,20 @@ function App() {
 
   return (
     <div className="App">
-      <div className="header">
-        <div style={{ flex: 1 }}>
-          <Tabs
-            value={algorithmSelected}
-            onChange={(e, newValue) => setAlgorithmSelected(newValue)}
-            aria-label="basic tabs example"
-            style={{ marginTop: 10 }}
-          >
-            <Tab label="Merge Sort" value="Merge" disabled={!!current} />
-            <Tab label="Bubble Sort" value="Bubble" disabled={!!current} />
-            {/* <Tab
-              label="Selection Sort"
-              value="Selection"
-              disabled={!!current}
-            /> */}
-          </Tabs>
-        </div>
-        <div style={{ flex: 1 }}>
-          <Button
-            variant="contained"
-            onClick={sort}
-            color="success"
-            disabled={!!current}
-          >
-            Sort
-          </Button>
-          <Button
-            variant="contained"
-            onClick={reset}
-            color="error"
-            disabled={!!current}
-          >
-            Restart
-          </Button>
-        </div>
-      </div>
+      <Header
+        algorithmSelected={algorithmSelected}
+        setAlgorithmSelected={setAlgorithmSelected}
+        sort={sort}
+        reset={reset}
+        current={current}
+      />
       <main className="main">
-        <div className="controls">
-          <FormControl>
-            <InputLabel id="demo-simple-select-label" style={{ color: "#aaa" }}>
-              Speed
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={speed}
-              label="Speed"
-              onChange={(event) => setSpeed(Number(event.target.value))}
-              style={{ width: "10vw", color: "white" }}
-              disabled={!!current}
-            >
-              <MenuItem value={100}>Slow</MenuItem>
-              <MenuItem value={10}>Medium</MenuItem>
-              <MenuItem value={1}>Fast</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl>
-            <Typography
-              id="input-slider"
-              gutterBottom
-              style={{ marginBottom: 40 }}
-            >
-              Size of Array
-            </Typography>
-            <Slider
-              defaultValue={1000}
-              step={100}
-              min={10}
-              max={1000}
-              valueLabelDisplay="on"
-              onChange={(e, newValue) => setLengthOfArr(Number(newValue))}
-              disabled={!!current}
-            />
-          </FormControl>
-        </div>
+        <Controls
+          speed={speed}
+          setSpeed={setSpeed}
+          current={current}
+          setLengthOfArr={setLengthOfArr}
+        />
         <div>
           <ArrayList hslStart={hslStart} arr={array} current={current!} />
         </div>

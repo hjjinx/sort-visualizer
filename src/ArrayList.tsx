@@ -1,3 +1,4 @@
+import React from "react";
 import { LENGTH, MAX } from "./Constants";
 
 type ArrayListProps = {
@@ -28,4 +29,4 @@ const ArrayList = (props: ArrayListProps) => {
   );
 };
 
-export default ArrayList;
+export default React.memo(ArrayList);
