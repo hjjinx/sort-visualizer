@@ -4,6 +4,7 @@ import "./App.css";
 import ArrayList from "./ArrayList";
 import Header from "./Header";
 import Controls from "./Controls";
+import { Typography } from "@mui/material";
 
 function App() {
   const [array, setArray] = useState<number[]>([]);
@@ -147,6 +148,15 @@ function App() {
         reset={reset}
         current={current}
       />
+      <Typography
+        id="Heading"
+        gutterBottom
+        style={{ marginTop: 20, marginBottom: 20 }}
+      >
+        {!!current
+          ? "Sorting in Progress. Refresh the page in order to start again."
+          : "Select the sorting algorithm from top-left and click the Sort button on top-right to start"}
+      </Typography>
       <main className="main">
         <Controls
           speed={speed}
@@ -154,9 +164,7 @@ function App() {
           current={current}
           setLengthOfArr={setLengthOfArr}
         />
-        <div>
-          <ArrayList hslStart={hslStart} arr={array} current={current!} />
-        </div>
+        <ArrayList hslStart={hslStart} arr={array} current={current!} />
       </main>
     </div>
   );

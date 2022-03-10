@@ -1,14 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 :root {
   --primary: rgb(10, 25, 41);
   --hyperlink: #61dafb;
   --selected-item: #fff;
 }
-
+html * {
+  font-family: "Montserrat", sans-serif !important;
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
