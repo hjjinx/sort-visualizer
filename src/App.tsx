@@ -21,7 +21,7 @@ function App() {
     Math.floor(Math.random() * 360)
   );
   const [current, setCurrent] = useState<number[] | null>(null);
-  const [speed, setSpeed] = useState(10);
+  const [speed, setSpeed] = useState(1);
   const [lengthOfArr, setLengthOfArr] = useState(LENGTH);
   const genUnsortedArray = () => {
     setArray(

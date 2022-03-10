@@ -27,10 +27,12 @@
   width: 80vw;
   flex-direction: row;
   display: flex;
-  height: 100%;
+  align-items: flex-end;
+  height: 80vh;
 }
 .item {
   width: 10%;
+  transition: height 0.1s;
 }
 .MuiButton-root {
   margin: 10px !important;
