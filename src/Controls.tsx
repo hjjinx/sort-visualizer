@@ -32,6 +32,7 @@ const Controls = (props: ControlProps) => {
           style={{ width: "10vw", color: "white" }}
           disabled={!!current}
         >
+          <MenuItem value={1000}>Super Slow</MenuItem>
           <MenuItem value={100}>Slow</MenuItem>
           <MenuItem value={10}>Medium</MenuItem>
           <MenuItem value={1}>Fast</MenuItem>

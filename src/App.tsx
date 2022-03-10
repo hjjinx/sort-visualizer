@@ -38,7 +38,7 @@ function App() {
     setCurrent([0]);
 
     const performBubbleSort = async () => {
-      if (i == array.length - countOfIterations) {
+      if (i >= array.length - countOfIterations - 1) {
         console.log({ numberOfSwaps });
         if (numberOfSwaps == 0) {
           setCurrent(null);
