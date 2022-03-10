@@ -23,11 +23,7 @@ const Header = (props: HeaderProps) => {
         >
           <Tab label="Merge Sort" value="Merge" disabled={!!current} />
           <Tab label="Bubble Sort" value="Bubble" disabled={!!current} />
-          {/* <Tab
-              label="Selection Sort"
-              value="Selection"
-              disabled={!!current}
-            /> */}
+          <Tab label="Insertion Sort" value="Insertion" disabled={!!current} />
         </Tabs>
       </div>
       <div style={{ flex: 1 }}>

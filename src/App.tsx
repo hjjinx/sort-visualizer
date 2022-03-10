@@ -27,7 +27,6 @@ function App() {
   };
 
   useEffect(genUnsortedArray, [lengthOfArr]);
-  useEffect(genUnsortedArray, []);
 
   const sleep = () => new Promise((resolve) => setTimeout(resolve, speed));
 
@@ -122,6 +121,31 @@ function App() {
     setCurrent(null);
   };
 
+  const insertionSort = async () => {
+    let keyIndex = 1;
+    let i = 0;
+    while (i <= lengthOfArr) {
+      setCurrent([keyIndex, i]);
+      await sleep();
+      if (array[i] > array[keyIndex]) {
+        array.splice(i, 0, array[keyIndex]);
+        array.splice(keyIndex + 1, 1);
+        keyIndex++;
+        i = 0;
+        continue;
+      }
+      if (i == keyIndex - 1) {
+        keyIndex++;
+        i = 0;
+      }
+      i++;
+      if (keyIndex == array.length) {
+        setCurrent(null);
+        return;
+      }
+    }
+  };
+
   const sort = () => {
     switch (algorithmSelected) {
       case "Bubble":
@@ -129,6 +153,9 @@ function App() {
         break;
       case "Merge":
         mergeSort();
+        break;
+      case "Insertion":
+        insertionSort();
         break;
     }
   };
@@ -148,11 +175,7 @@ function App() {
         reset={reset}
         current={current}
       />
-      <Typography
-        id="Heading"
-        gutterBottom
-        style={{ marginTop: 20, marginBottom: 20 }}
-      >
+      <Typography id="Heading" style={{ marginTop: 20, marginBottom: 20 }}>
         {!!current
           ? "Sorting in Progress. Refresh the page in order to start again."
           : "Select the sorting algorithm from top-left and click the Sort button on top-right to start"}
