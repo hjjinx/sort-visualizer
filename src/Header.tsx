@@ -24,9 +24,10 @@ const Header = (props: HeaderProps) => {
           <Tab label="Merge Sort" value="Merge" disabled={!!current} />
           <Tab label="Bubble Sort" value="Bubble" disabled={!!current} />
           <Tab label="Insertion Sort" value="Insertion" disabled={!!current} />
+          <Tab label="Heap Sort" value="Heap" disabled={!!current} />
         </Tabs>
       </div>
-      <div style={{ flex: 1 }}>
+      <div>
         <Button
           variant="contained"
           onClick={sort}

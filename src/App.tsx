@@ -10,7 +10,8 @@ function App() {
   const [array, setArray] = useState<number[]>([]);
   const [algorithmSelected, setAlgorithmSelected] = useState("Merge");
   const [hslStart, setHslStart] = useState<number>(
-    Math.floor(Math.random() * 360)
+    // Math.floor(Math.random() * 360)
+    238
   );
   const [current, setCurrent] = useState<number[] | null>(null);
   const [speed, setSpeed] = useState(1);
@@ -146,6 +147,36 @@ function App() {
     }
   };
 
+  const heapSort = async () => {
+    const heapify = async (arr: number[], n: number, i: number) => {
+      let largest = i;
+      const l = 2 * i + 1;
+      const r = 2 * i + 2;
+
+      if (l < n && arr[i] < arr[l]) largest = l;
+
+      if (r < n && arr[largest] < arr[r]) largest = r;
+
+      if (largest != i) {
+        setCurrent([i, largest]);
+        await sleep();
+        [arr[i], arr[largest]] = [arr[largest], arr[i]];
+        await heapify(arr, n, largest);
+      }
+    };
+    const n = array.length;
+
+    for (let i = n / 2 - 1; i >= 0; i--) {
+      await heapify(array, n, i);
+    }
+
+    for (let i = n - 1; i >= 0; i--) {
+      [array[0], array[i]] = [array[i], array[0]];
+      await heapify(array, i, 0);
+    }
+    setCurrent(null);
+  };
+
   const sort = () => {
     switch (algorithmSelected) {
       case "Bubble":
@@ -156,6 +187,9 @@ function App() {
         break;
       case "Insertion":
         insertionSort();
+        break;
+      case "Heap":
+        heapSort();
         break;
     }
   };
