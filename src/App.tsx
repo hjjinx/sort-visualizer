@@ -127,11 +127,11 @@ function App() {
       setHighlighted([keyIndex, i]);
       await sleep();
       if (array[i] > array[keyIndex]) {
-        let temp = array[i];
-        array[i] = array[keyIndex];
-        for (let j = i + 1; j < keyIndex + 1; j++) {
-          [array[j], temp] = [temp, array[j]];
+        let temp = array[keyIndex];
+        for (let j = keyIndex - 1; j > i; j--) {
+          array[j + 1] = array[j];
         }
+        array[i] = temp;
         keyIndex++;
         i = 0;
         continue;
