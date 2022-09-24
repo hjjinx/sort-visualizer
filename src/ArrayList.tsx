@@ -1,30 +1,33 @@
 import React from "react";
-import { LENGTH, MAX } from "./Constants";
+import { MAX } from "./Constants";
 
 type ArrayListProps = {
   arr: number[];
   hslStart: number;
-  current: number[];
+  highlighted: number[];
 };
 
 const ArrayList = (props: ArrayListProps) => {
-  const { arr, hslStart, current } = props;
+  const { arr, hslStart, highlighted } = props;
   return (
     <div className="array-container">
-      {arr.map((i, index) => (
-        <div
-          style={{
-            height: `${(100 * i) / MAX}%`,
-            backgroundColor: current?.includes(index)
-              ? "var(--selected-item)"
-              : `hsl(${hslStart + (i * 50) / MAX}, 100%, 50%)`,
-          }}
-          className="item"
-          key={`item-` + index}
-        >
-          {" "}
-        </div>
-      ))}
+      {arr.map((i, index) => {
+        const heightBy2 = (50 * i) / MAX;
+        return (
+          <div
+            style={{
+              height: `${heightBy2 * 2}%`,
+              backgroundColor: highlighted?.includes(index)
+                ? "var(--selected-item)"
+                : `hsl(${hslStart + heightBy2}, 100%, 50%)`,
+            }}
+            className="item"
+            key={`item-` + index}
+          >
+            {" "}
+          </div>
+        );
+      })}
     </div>
   );
 };

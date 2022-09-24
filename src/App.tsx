@@ -13,7 +13,7 @@ function App() {
     // Math.floor(Math.random() * 360)
     238
   );
-  const [current, setCurrent] = useState<number[] | null>(null);
+  const [highlighted, setHighlighted] = useState<number[] | null>(null);
   const [speed, setSpeed] = useState(1);
   const [lengthOfArr, setLengthOfArr] = useState(LENGTH);
   const genUnsortedArray = () => {
@@ -36,28 +36,26 @@ function App() {
     let j = 1;
     let countOfIterations = 0;
     let numberOfSwaps = 0;
-    setCurrent([0]);
+    setHighlighted([0]);
 
     const performBubbleSort = async () => {
       if (i >= array.length - countOfIterations - 1) {
-        console.log({ numberOfSwaps });
         if (numberOfSwaps == 0) {
-          setCurrent(null);
+          setHighlighted(null);
           return;
         }
         numberOfSwaps = 0;
         countOfIterations++;
         i = 0;
         j = 1;
-        setCurrent([0]);
+        setHighlighted([0]);
         await sleep();
       }
       if (array[i] > array[j]) {
         numberOfSwaps++;
         [array[i], array[j]] = [array[j], array[i]];
       }
-      setArray(array);
-      setCurrent((current) => [current![0]! + 1]);
+      setHighlighted((highlighted) => [highlighted![0]! + 1]);
       await sleep();
       i++;
       j++;
@@ -83,14 +81,14 @@ function App() {
         if (L[i] <= R[j]) {
           array[k] = L[i];
           if (k !== i + l) {
-            setCurrent([k, m + 1 + j]);
+            setHighlighted([k, m + 1 + j]);
             await sleep();
           }
           i++;
         } else {
           array[k] = R[j];
           if (k !== m + 1 + j) {
-            setCurrent([k, m + 1 + j]);
+            setHighlighted([k, m + 1 + j]);
             await sleep();
           }
           j++;
@@ -117,20 +115,23 @@ function App() {
       await performMergeSort(m + 1, r);
       await merge(l, m, r);
     };
-    setCurrent([0]);
+    setHighlighted([0]);
     await performMergeSort(0, array.length - 1);
-    setCurrent(null);
+    setHighlighted(null);
   };
 
   const insertionSort = async () => {
     let keyIndex = 1;
     let i = 0;
     while (i <= lengthOfArr) {
-      setCurrent([keyIndex, i]);
+      setHighlighted([keyIndex, i]);
       await sleep();
       if (array[i] > array[keyIndex]) {
-        array.splice(i, 0, array[keyIndex]);
-        array.splice(keyIndex + 1, 1);
+        let temp = array[i];
+        array[i] = array[keyIndex];
+        for (let j = i + 1; j < keyIndex + 1; j++) {
+          [array[j], temp] = [temp, array[j]];
+        }
         keyIndex++;
         i = 0;
         continue;
@@ -141,7 +142,7 @@ function App() {
       }
       i++;
       if (keyIndex == array.length) {
-        setCurrent(null);
+        setHighlighted(null);
         return;
       }
     }
@@ -158,7 +159,7 @@ function App() {
       if (r < n && arr[largest] < arr[r]) largest = r;
 
       if (largest != i) {
-        setCurrent([i, largest]);
+        setHighlighted([i, largest]);
         await sleep();
         [arr[i], arr[largest]] = [arr[largest], arr[i]];
         await heapify(arr, n, largest);
@@ -174,7 +175,7 @@ function App() {
       [array[0], array[i]] = [array[i], array[0]];
       await heapify(array, i, 0);
     }
-    setCurrent(null);
+    setHighlighted(null);
   };
 
   const sort = () => {
@@ -196,7 +197,7 @@ function App() {
 
   const reset = () => {
     genUnsortedArray();
-    setCurrent(null);
+    setHighlighted(null);
     setHslStart(Math.floor(Math.random() * 360));
   };
 
@@ -207,10 +208,10 @@ function App() {
         setAlgorithmSelected={setAlgorithmSelected}
         sort={sort}
         reset={reset}
-        current={current}
+        highlighted={highlighted}
       />
       <Typography id="Heading" style={{ marginTop: 20, marginBottom: 20 }}>
-        {!!current
+        {!!highlighted
           ? "Sorting in Progress. Refresh the page in order to start again."
           : "Select the sorting algorithm from top-left and click the Sort button on top-right to start"}
       </Typography>
@@ -218,10 +219,10 @@ function App() {
         <Controls
           speed={speed}
           setSpeed={setSpeed}
-          current={current}
+          highlighted={highlighted}
           setLengthOfArr={setLengthOfArr}
         />
-        <ArrayList hslStart={hslStart} arr={array} current={current!} />
+        <ArrayList hslStart={hslStart} arr={array} highlighted={highlighted!} />
       </main>
     </div>
   );

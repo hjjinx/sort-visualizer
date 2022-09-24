@@ -4,13 +4,13 @@ import React from "react";
 type HeaderProps = {
   algorithmSelected: string;
   setAlgorithmSelected: (a: string) => void;
-  current: number[] | null;
+  highlighted: number[] | null;
   sort: () => void;
   reset: () => void;
 };
 
 const Header = (props: HeaderProps) => {
-  const { algorithmSelected, setAlgorithmSelected, current, sort, reset } =
+  const { algorithmSelected, setAlgorithmSelected, highlighted, sort, reset } =
     props;
   return (
     <div className="header">
@@ -21,10 +21,14 @@ const Header = (props: HeaderProps) => {
           aria-label="basic tabs example"
           style={{ marginTop: 10 }}
         >
-          <Tab label="Merge Sort" value="Merge" disabled={!!current} />
-          <Tab label="Bubble Sort" value="Bubble" disabled={!!current} />
-          <Tab label="Insertion Sort" value="Insertion" disabled={!!current} />
-          <Tab label="Heap Sort" value="Heap" disabled={!!current} />
+          <Tab label="Merge Sort" value="Merge" disabled={!!highlighted} />
+          <Tab label="Bubble Sort" value="Bubble" disabled={!!highlighted} />
+          <Tab
+            label="Insertion Sort"
+            value="Insertion"
+            disabled={!!highlighted}
+          />
+          <Tab label="Heap Sort" value="Heap" disabled={!!highlighted} />
         </Tabs>
       </div>
       <div>
@@ -32,7 +36,7 @@ const Header = (props: HeaderProps) => {
           variant="contained"
           onClick={sort}
           color="success"
-          disabled={!!current}
+          disabled={!!highlighted}
         >
           Sort
         </Button>
@@ -40,7 +44,7 @@ const Header = (props: HeaderProps) => {
           variant="contained"
           onClick={reset}
           color="error"
-          disabled={!!current}
+          disabled={!!highlighted}
         >
           Restart
         </Button>

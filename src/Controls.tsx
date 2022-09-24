@@ -11,12 +11,12 @@ import {
 type ControlProps = {
   speed: number;
   setSpeed: (a: number) => void;
-  current: number[] | null;
+  highlighted: number[] | null;
   setLengthOfArr: (a: number) => void;
 };
 
 const Controls = (props: ControlProps) => {
-  const { speed, setSpeed, current, setLengthOfArr } = props;
+  const { speed, setSpeed, highlighted, setLengthOfArr } = props;
   return (
     <div className="controls">
       <FormControl>
@@ -30,7 +30,7 @@ const Controls = (props: ControlProps) => {
           label="Speed"
           onChange={(event) => setSpeed(Number(event.target.value))}
           style={{ width: "10vw", color: "white" }}
-          disabled={!!current}
+          disabled={!!highlighted}
         >
           <MenuItem value={1000}>Super Slow</MenuItem>
           <MenuItem value={100}>Slow</MenuItem>
@@ -49,7 +49,7 @@ const Controls = (props: ControlProps) => {
           max={1000}
           valueLabelDisplay="on"
           onChange={(e, newValue) => setLengthOfArr(Number(newValue))}
-          disabled={!!current}
+          disabled={!!highlighted}
         />
       </FormControl>
     </div>
